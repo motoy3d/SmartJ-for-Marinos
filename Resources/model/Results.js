@@ -1,7 +1,10 @@
 /**
- * 試合日程・結果データ取得サービス 
+ * 試合日程・結果データ取得サービス
+ * @param resulstsWindow
+ * @param otherTeamId 他チーム日程表示時に使用 
+ * @param otherTeamName 他チーム日程表示時に使用 
  */
-function Results(resultsWindow) {
+function Results(resultsWindow, otherTeamId, otherTeamName) {
     var config = require("/config").config;
 	var util = require("util/util").util;
 	var style = require("util/style").style;
@@ -10,7 +13,8 @@ function Results(resultsWindow) {
 	self.load = load;
 //	self.createRow = createRow;
 	
-    var teamNameEncoded = encodeURIComponent(config.teamName);
+    var teamNameEncoded = encodeURIComponent(
+        otherTeamId != null && otherTeamId != ""? otherTeamName : config.teamName);
     var highlightEncoded = encodeURIComponent('ハイライト');
 
 	/**
@@ -31,6 +35,9 @@ function Results(resultsWindow) {
 		Ti.API.debug("シーズン＝" + currentSeason);
 		
         var resultsUrl = config.resultsUrl + util.getCurrentSeason();
+        if (otherTeamId && otherTeamId != null && otherTeamId != "") {
+            resultsUrl += "&otherTeamId=" + otherTeamId;
+        }
 		Ti.API.info("★★★日程読み込み " + resultsUrl);
 		//Ti.Yahoo.yql(config.resultsQuery, function(e) {
         var xhr = new XHR();
@@ -99,7 +106,7 @@ function Results(resultsWindow) {
             score = item.score;
             detailUrl = item.detail_url;
 			Ti.API.info(team + ' スコア ' + score + "　" + result + ".");
-            if("○" == result) {
+            if("○" == result || "◯" == result) {
                 resultImage = "/images/win.png";
             } else if("△" == result) {
                 resultImage = "/images/draw.png";
@@ -108,7 +115,7 @@ function Results(resultsWindow) {
             }
 		}
 		//Ti.API.info('★' + isHome + " : " + team + " : " + score + " : " + detailUrl);
-		var hasDetailResult = detailUrl != "";
+		var hasDetailResult = detailUrl != "" && detailUrl != null;
 		//Ti.API.debug(compe + " " + date + " " + time + " " + team + " " + stadium + " " + score);
 		// Ti.API.debug("hasDetailResult=" + hasDetailResult);
 		var row = Ti.UI.createTableViewRow(style.results.tableViewRow);
@@ -165,41 +172,9 @@ function Results(resultsWindow) {
 		movieButton.addEventListener('click', function() {
 		    Ti.API.debug('>>>>>>>>>>> date=' + item.game_date1);
 		    var gameDate = new Date(item.game_date1);
-			var monthDate = new Array(gameDate.getMonth()+1, gameDate.getDate());
-			var month = monthDate[0];
-			if(month.length == 1) {
-				month = '0' + month;
-			}
-			var day = monthDate[1];
-			if(day.length == 1) {
-				day = '0' + day;
-			}
-			// 動画検索キーワード作成
-            var dateYYMMDD = String(currentSeason).substring(2) + month + day;
-            var dateYYYYMMDD1 = currentSeason + "." + month + "." + day;
-            var dateYYYYMMDD2 = currentSeason + "." + monthDate[0] + "." + day;
-            var dateYYYYMMDD3 = currentSeason + "/" + monthDate[0] + "/" + day;
-            var dateYYYYMMDD4 = currentSeason + "/" + month + "/" + day;
-//            var dateYYYYMMDD = encodeURIComponent(currentSeason + "年" + month + "月" + day + "日");
-            var teamEncoded = encodeURIComponent(team);
-            var keyword1 = dateYYMMDD + '+' + teamEncoded + "+" + highlightEncoded;
-            var keyword2 = dateYYYYMMDD1 + '+' + teamNameEncoded + '+' + teamEncoded /*+ encodeURIComponent("戦")*/;
-            var keyword3 = dateYYYYMMDD2 + '+' + teamNameEncoded + '+' + teamEncoded;
-            var keyword4 = dateYYYYMMDD3 + '+' + teamNameEncoded + '+' + teamEncoded;
-            var keyword5 = dateYYYYMMDD4 + '+' + teamNameEncoded + '+' + teamEncoded;
-            
-            Ti.API.info("キーワード：" + keyword1 + "  :  " + keyword2 + " : " + keyword3);
+            var title = compe + "(" + date + ") vs " + team;
             // ResultsWindow側の処理を呼び出す
-            resultsWindow.searchMovie({
-                title: compe + "(" + date + ") vs " + team
-                ,key1: keyword1
-                ,key2: keyword2
-                ,key3: keyword3
-                ,key4: keyword4
-                ,key5: keyword5
-                ,team: team
-                ,date: dateYYYYMMDD1
-            });
+            resultsWindow.searchMovie(title, util.replaceAll(util.formatDate(gameDate), "/", ""));
 		});
 		row.add(movieButton);
 		//Ti.API.debug('row====' + row);

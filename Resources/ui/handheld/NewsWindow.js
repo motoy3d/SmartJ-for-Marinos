@@ -6,7 +6,7 @@ function NewsWindow(tabGroup) {
     var News = require("/model/News");
     var util = require("/util/util").util;
     var WebWindow = null;
-    if(util.isiPhone()) {
+    if(util.isiOS()) {
         WebWindow = require("/ui/handheld/WebWindow");
     } else {
         WebWindow = require("/ui/handheld/WebWindowAndroid");
@@ -19,7 +19,7 @@ function NewsWindow(tabGroup) {
  
     // 設定ボタン
     var configButton = Ti.UI.createButton({
-        image: "/images/gear.png"
+        image: "/images/th.png"
     });
     var configButtonClicked = false;
     configButton.addEventListener('click', function() {
@@ -37,28 +37,41 @@ function NewsWindow(tabGroup) {
     var self = Ti.UI.createWindow({
         title: "ニュース"
         ,navBarHidden: false
-        ,backgroundColor: 'white'
+        ,backgroundColor: style.common.backgroundColor
         ,barColor: style.common.barColor
         ,navTintColor: style.common.navTintColor
         ,rightNavButton: configButton
+        ,titleAttributes: {
+            color: style.common.navTintColor
+        }
     });
 
     // 広告
     var ad = require('net.nend');
     var adViewContainer = Ti.UI.createView (style.news.adViewContainer);
     var adView;
-    if(Ti.Platform.osname === 'android'){
+    if(Ti.Platform.osname === 'android'){        
         // for Android
         // Icon Layout type. 
-        adView = ad.createView ({
-            spotId: config.nendSpotIdAndroid,
-            apiKey: config.nendApiKeyAndroid,
-            adType:'icon',
-            orientation:'horizontal',
-            width: '320dp',
-            height: '75dp',
-            top: '5dp'
-        });
+        if(Ti.App.adType == 1) {//アイコン
+            adView = ad.createView ({
+                spotId: config.nendSpotIdAndroid,
+                apiKey: config.nendApiKeyAndroid,
+                adType:'icon',
+                orientation:'horizontal',
+                width: 320,
+                height: 75,
+                top: 5,
+                iconCount: 4
+            });
+        } else if(Ti.App.adType == 2) {    //バナー
+            adView = ad.createView ({
+                spotId: config.nendSpotIdAndroidBanner,
+                apiKey: config.nendApiKeyAndroidBanner,
+                top: 0,
+                isAdjust: true
+            });
+        }
     } else {
         // for iPhone
         if(Ti.App.adType == 1) {//アイコン
@@ -73,25 +86,32 @@ function NewsWindow(tabGroup) {
             adView.apiKey = config.nendApiKeyIPhoneBanner;
         }
     }
-    // 2. Add Event Listener.
-    // 受信成功通知
-    adView.addEventListener('receive',function(e){
-        //Ti.API.info('icon receive');
-    });
-    // 受信エラー通知
-    adView.addEventListener('error',function(e){
-        Ti.API.info('広告受信エラー');
-        adViewContainer.setHeight(0);
-        listView.setTop(0);
-    });
-    // クリック通知
-    adView.addEventListener('click',function(e){
-        Ti.API.info('広告クリック');
-    }); 
-    
-    // 3. Add View
-    adViewContainer.add(adView);
-    self.add(adViewContainer);
+    if (adView) {
+        // 2. Add Event Listener.
+        // 受信成功通知
+        adView.addEventListener('receive',function(e){
+            //Ti.API.info('icon receive');
+        });
+        // 受信エラー通知
+        adView.addEventListener('error',function(e){
+            Ti.API.info('広告受信エラー');
+            adViewContainer.setHeight(0);
+            adView.setHeight(0);
+            listView.setTop(0);
+        });
+        // クリック通知
+        adView.addEventListener('click',function(e){
+            Ti.API.info('広告クリック');
+        }); 
+        
+        // 3. Add View
+        if (util.isAndroid()) {
+            self.add(adView);
+        } else {
+            adViewContainer.add(adView);
+            self.add(adViewContainer);
+        }
+    }
     // インジケータ
     var indicator = Ti.UI.createActivityIndicator();
     self.add(indicator);
@@ -106,7 +126,7 @@ function NewsWindow(tabGroup) {
         childTemplates : style.news.listViewTemplate,
         properties : {
             height : Ti.UI.SIZE
-            ,backgroundColor: 'white'
+            ,backgroundColor: style.common.backgroundColor
         }
     };
     // Android用
@@ -114,7 +134,7 @@ function NewsWindow(tabGroup) {
         childTemplates : style.news.listViewRefreshTemplate,
         properties : {
             height : Ti.UI.SIZE
-            ,backgroundColor: 'white'
+            ,backgroundColor: style.common.backgroundColor
         }
     };
 
@@ -124,7 +144,7 @@ function NewsWindow(tabGroup) {
             ,'refreshTemplate': refreshTemplate
         }
         ,defaultItemTemplate : 'template'
-        ,backgroundColor: 'white'
+        ,backgroundColor: style.common.backgroundColor
     });
     Ti.API.debug("★style.news.listView.backgroundColor=" + style.news.listView.backgroundColor);
     listView.applyProperties(style.news.listView);
@@ -191,11 +211,31 @@ function NewsWindow(tabGroup) {
                 ,content : item.content
                 ,image : item.image
                 ,pubDate : item.pubDate
+                ,navBarHidden : true
                 ,toolbarVisible : true
             };
-            var webWindow = new WebWindow(webData);
-            //TODO 黒いスペースができてしまうTiのバグ
-//            webWindow.tabBarHidden = true;
+
+            var webWindow = new WebWindow(webData,
+				{ //ブロックサイトをリストから削除するcallback
+	                removeBlockedSite: function(site) {
+	                	//alert("removeBlockedSite = " + site);
+	                	var items = listView.sections[0].items;
+	                	Ti.API.info('items.length 1 = ' + items.length);
+	                	for(var i=0; i<items.length; i++) {
+	                		//Ti.API.info(i + ' 🌟リンク ' + items[i].link);
+	                		if (items[i].link.indexOf(site) == 0) {
+		                		Ti.API.info(i + ' 削除 ' + items[i].link);
+	                			listView.sections[0].deleteItemsAt(i, 1);
+	                			i--;
+	                			items = listView.sections[0].items;
+	                			//Ti.API.info('items.length 2 = ' + items.length);
+	                		}
+	                	}
+	                }
+	            }            	
+        	);
+            //TODO 黒いスペースができてしまうTiのバグ https://jira.appcelerator.org/browse/TIMOB-16069
+            //webWindow.tabBarHidden = true;
             tabGroup.activeTab.open(webWindow, {animated: true});
             Ti.App.Analytics.trackPageview('/newsDetail');
         } finally {
@@ -213,7 +253,7 @@ function NewsWindow(tabGroup) {
         imageArrow.transform=Ti.UI.create2DMatrix();
         imageArrow.show();
         //TODO Android
-        if (util.isiPhone()) {
+        if (util.isiOS()) {
             listView.setContentInsets({top:0}, {animated:true});
         }
     }
@@ -231,7 +271,7 @@ function NewsWindow(tabGroup) {
         imageArrow.hide();
         actInd.show();
         //TODO Android
-        if (util.isiPhone()) {
+        if (util.isiOS()) {
             listView.setContentInsets({top:80}, {animated:true});
         }
         setTimeout(function(){
@@ -240,7 +280,7 @@ function NewsWindow(tabGroup) {
     }
     // ヘッダ(pull to refreshの行)
     var listViewHeader = Ti.UI.createView({
-        backgroundColor:'#ccc',
+        backgroundColor: style.common.backgroundColor,
         width: Ti.UI.SIZE, height: 80
     });
     var border = Ti.UI.createView({
@@ -301,16 +341,20 @@ function NewsWindow(tabGroup) {
                         //Ti.API.info("rowsData■" + rowsData);
                         // 初回ロード時
                         if("firstTime" == kind) {
-                            if(Ti.App.adType == 1 || Ti.Platform.osname === 'android') {//アイコン
-                                Ti.API.info('★アイコン広告');
+                            if(Ti.App.adType == 1) {//アイコン
+                                //Ti.API.info('★アイコン広告');
                                 adViewContainer.height = 80;
                                 adView.height = 75;
                                 listView.top = 80;
                             } else if(Ti.App.adType == 2){//バナー
-                                Ti.API.info('★バナー広告');
-                                adViewContainer.height = 50;
-                                adView.height = 50;
-                                listView.top = 50;
+                                //Ti.API.info('★バナー広告');
+                                if (util.isAndroid()) {
+                                    listView.top = 70; // 元は50
+                                } else {
+                                    adView.height = 50;
+                                    adViewContainer.height = 50;
+                                    listView.top = 50;
+                                }
                             }
                             if(rowsData) {
                                 if(util.isAndroid()) {   // リロードボタンの行を１番目に挿入
@@ -325,9 +369,17 @@ function NewsWindow(tabGroup) {
                                         }  
                                      );
                                 }
+                                Ti.API.info('★rowsData = ' + rowsData);
+                                Ti.API.info('★dataSection = ' + dataSection);
+                                Ti.API.info('★listView = ' + listView);
+                                Ti.API.info('★sections = ' + sections + " (" + sections.length + ")");
+                                Ti.API.info('★sections[0] = ' + sections[0]);
                                 dataSection.setItems(rowsData);
+                                Ti.API.info('★★');
                                 listView.sections = sections;
+                                Ti.API.info('★★★');
                                 listView.setMarker({sectionIndex: 0, itemIndex: (rowsData.length - 1) });
+                                Ti.API.info('★★★★');
                                 self.add(listView);
                                 news.newest_item_timestamp = newest_item_timestamp;
                                 news.oldest_item_timestamp = oldest_item_timestamp;
@@ -350,7 +402,7 @@ function NewsWindow(tabGroup) {
                                     listView.sections = sections;
                                 }
                                 Ti.API.debug('最新データ読み込み  件数＝' + rowsData.length);
-                                var appendIdx = util.isiPhone()? 0 : 1;
+                                var appendIdx = util.isiOS()? 0 : 1;
                                 dataSection.insertItemsAt(appendIdx, rowsData);
                             }
                         }

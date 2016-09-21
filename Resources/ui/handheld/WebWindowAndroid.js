@@ -44,25 +44,11 @@ function WebWindow(webData) {
         webView.bottom = 0;
     }
 
-    var simpleDispModeProp = Ti.App.Properties.getBool("simpleDispMode");
-	Ti.API.info("#####  webData.link=[" + webData.link + "]");
-	
     if(webData.html) {  //tweet
         Ti.API.info("----------- 7");
         webView.html = webData.html;
         webView.scalesPageToFit = false;
         self.add(webView);
-    }
-	else if(simpleDispModeProp &&
-	    webData.content && 
-		(webData.content != "" && 
-		 webData.content.indexOf('<img src="http://feeds.feedburner.com') == -1 
-		 )
-	) {
-        Ti.API.info("----------- 8");
-        webView.scalesPageToFit = false;
-		webView.html = createWebContent(webData);
-		self.add(webView);
 	} else {
         //var indWin = customIndicator.create();
         var loaded = false;
