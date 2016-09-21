@@ -4,14 +4,14 @@ var style = require("util/style").style;
 var newsSource = require("model/newsSource");
 var XHR = require("util/xhr");
 var LOAD_FEED_SIZE = config.newsEntriesPerPage;
-var feedUrlBase = config.feedUrlBase + "?teamId=" + config.teamId + "&count=";
 var visitedUrlList = new Array();
 var rowIdx = 0;
 
 /**
  * ニュース情報
  */
-function News() {
+function News(teamId) {
+	var feedUrlBase = config.feedUrlBase + "?teamId=" + teamId + "&count=";
     var self = {};
     self.newest_item_timestamp = 0; // 最新データを読み込む場合のパラメータ（最新フィードのタイムスタンプ）
     self.oldest_item_timestamp = 0; // 古いデータを読み込む場合のパラメータ（最古フィードのタイムスタンプ）

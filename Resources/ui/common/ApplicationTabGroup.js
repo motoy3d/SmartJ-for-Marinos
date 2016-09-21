@@ -5,6 +5,7 @@ function ApplicationTabGroup() {
 	var TwitterWindow = require('ui/handheld/TwitterWindow');
     var style = require("util/style").style;
     var util = require("util/util").util;
+	var config = require("/config").config;
 	var self = Ti.UI.createTabGroup({
 	    navTintColor: style.common.navTintColor
 	});
@@ -13,7 +14,7 @@ function ApplicationTabGroup() {
 	}
 	
 	//create app tabs
-	var win1 = new NewsWindow(self),
+	var win1 = new NewsWindow(self, config.teamId),
 		win2 = new ResultsWindow(self),
 		win3 = new StandingsWindow(self),
 		win4 = new TwitterWindow(self, "searchTweets"),

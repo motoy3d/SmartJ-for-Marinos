@@ -136,7 +136,7 @@ function WebWindow(webData, callback) {
     var twitter;
     var line;
     if(webData.toolbarVisible) { //twitter画面以外から遷移した場合
-        createToolbar();
+    	createToolbar();
     }
     addWebViewEventListener();
     
@@ -248,7 +248,6 @@ function WebWindow(webData, callback) {
             ,enabled: false
         });
         
-               
         // twitterはiOS5で統合されたが、titanium-social-modulは
         // FB(iOS6から)が含まれているためiOS5でエラーになる。
         twitter = Ti.UI.createButton({

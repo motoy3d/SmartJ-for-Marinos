@@ -1,9 +1,13 @@
 /**
  * ニュース画面UI
  * loadFeed フィードを読み込む
+ * @tabGroup
+ * @teamId
+ * @teamName
  */
-function NewsWindow(tabGroup) {
+function NewsWindow(tabGroup, teamId, teamName) {
     var News = require("/model/News");
+    var Standings = require("/model/Standings");
     var util = require("/util/util").util;
     var WebWindow = null;
     if(util.isiOS()) {
@@ -14,7 +18,7 @@ function NewsWindow(tabGroup) {
     var ConfigWindow = require("/ui/handheld/ConfigWindow");
     var style = require("/util/style").style;
     var config = require("/config").config;
-    var news = new News();
+    var news = new News(teamId);
     var isOpeningNews = false;
  
     // 設定ボタン
@@ -43,10 +47,7 @@ function NewsWindow(tabGroup) {
         if(otherTeamButtonClicked) {return;}
         try {
             otherTeamButtonClicked = true;
-            alert("他チーム情報");
-            // var configWindow = new ConfigWindow();
-            // configWindow.tabBarHidden = true;
-            // tabGroup.activeTab.open(configWindow, {animated: true});
+            openOtherTeamWin();
         } finally{
             otherTeamButtonClicked = false;
         }
@@ -54,17 +55,19 @@ function NewsWindow(tabGroup) {
 
     // ウィンドウ
     var self = Ti.UI.createWindow({
-        title: "ニュース"
+        title: (teamName? teamName + " " : "") + "ニュース"
         ,navBarHidden: false
         ,backgroundColor: style.common.backgroundColor
         ,barColor: style.common.barColor
         ,navTintColor: style.common.navTintColor
-        ,rightNavButton: configButton
-        ,leftNavButton: otherTeamButton
         ,titleAttributes: {
             color: style.common.navTintColor
         }
     });
+    if (teamId == config.teamId) {	//自分のチームの時のみ表示
+        self.rightNavButton = configButton;
+        self.leftNavButton = otherTeamButton;
+    }
 
     // 広告
     var ad = require('net.nend');
@@ -452,6 +455,108 @@ function NewsWindow(tabGroup) {
                 }
             }
         );
+    }
+
+    /**
+     * 他チーム情報ウィンドウを開く
+     */
+    function openOtherTeamWin() {
+        indicator.show();
+        //ウィンドウ
+        var otherTeamWin = Ti.UI.createWindow({
+            width: "90%"
+            ,height: "94%"
+            ,backgroundColor: "white"
+            ,modal: true
+        });
+        //タイトル
+        var titleBar = Ti.UI.createLabel({
+            text: " 他チームニュース"
+            ,width: Ti.UI.FILL
+            ,top: 0
+            ,height: 50
+            ,backgroundColor: "#efefef"
+        });
+        if (util.isAndroid()) {
+            titleBar.color = "black";
+        }
+        //他チームテーブル
+        var teamTable = Ti.UI.createTableView({
+            width: Ti.UI.FILL
+            ,height: Ti.UI.FILL
+            ,top: 50
+            ,bottom: 40
+            ,minRowHeight: 44
+            ,separatorColor: "#efefef"
+        });
+        //順位表データからチーム一覧を取得
+        var standings = new Standings("J", Ti.App.currentStage);
+        standings.load("seq", {
+            success: function(standingsDataList) {
+                try {
+                    var rows = new Array();
+                    for(i=0; i<standingsDataList.length; i++) {
+                        var data = standingsDataList[i];
+                        rows.push({
+                            title: "　" + data.teamFull
+                            ,teamId: data.teamId
+                            ,teamName: data.team
+                            ,color: "black"
+                        });
+                    }
+                    teamTable.setData(rows);
+                } catch(e) {
+                    Ti.API.error(e);
+                } finally {
+                    indicator.hide();
+                    // isLoading = false;
+                }
+            },
+            fail: function(message) {
+                indicator.hide();
+                isLoading = false;
+                var dialog = Ti.UI.createAlertDialog({
+                    message: message,
+                    buttonNames: ['OK']
+                });
+                dialog.show();
+            }
+        });
+        //チーム選択時
+        teamTable.addEventListener("click", function(e){
+            Ti.API.info('他チーム選択：' + e.rowData.teamId);
+            otherTeamWin.close();
+            var otherTeamNewsWin = new NewsWindow(tabGroup, e.rowData.teamId, e.rowData.teamName);
+            tabGroup.activeTab.open(otherTeamNewsWin, {animated: true});
+        });
+        //閉じるボタン
+        var closeBtn = Ti.UI.createButton({
+            title: "閉じる"
+            ,width: 140
+            ,height: 40
+            ,bottom: 0
+        });
+        if (util.isAndroid()) {
+            closeBtn.color = "black";
+        }
+        closeBtn.addEventListener("click", function(e){
+            otherTeamWin.close();
+        });
+        otherTeamWin.add(titleBar);
+        otherTeamWin.add(teamTable);
+        otherTeamWin.add(closeBtn);
+        if (util.isiOS()) {
+	        otherTeamWin.open({
+	        	modal : true
+	        	,modalTransitionStyle : Ti.UI.iPhone.MODAL_TRANSITION_STYLE_CROSS_DISSOLVE
+	        });
+	    } else {
+	        otherTeamWin.open({
+	        	modal : true
+	        	,activityEnterAnimation: Ti.Android.R.anim.fade_in
+	        	,activityExitAnimation: Ti.Android.R.anim.fade_out
+	        });
+	    }
     }
     loadFeed(news, 'firstTime');
     

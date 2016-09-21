@@ -51,7 +51,7 @@ exports.style = {
                             ,width: 200
                             //,height: 100
                             ,borderRadius: 1
-                            ,backgroundColor: "#202020"
+                            ,backgroundColor: config.backgroundColor
                             ,defaultImage: ""
                         }
                         ,events: {

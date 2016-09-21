@@ -161,8 +161,10 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
         indicator.show();
         //ウィンドウ
         var otherTeamWin = Ti.UI.createWindow({
-            top: 20
+            width: "90%"
+            ,height: "94%"
             ,backgroundColor: "white"
+            ,modal: true
         });
         //タイトル
         var titleBar = Ti.UI.createLabel({
@@ -240,7 +242,18 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
         otherTeamWin.add(titleBar);
         otherTeamWin.add(teamTable);
         otherTeamWin.add(closeBtn);
-        otherTeamWin.open();
+        if (util.isiOS()) {
+	        otherTeamWin.open({
+	        	modal : true
+	        	,modalTransitionStyle : Ti.UI.iPhone.MODAL_TRANSITION_STYLE_CROSS_DISSOLVE
+	        });
+	    } else {
+	        otherTeamWin.open({
+	        	modal : true
+	        	,activityEnterAnimation: Ti.Android.R.anim.fade_in
+	        	,activityExitAnimation: Ti.Android.R.anim.fade_out
+	        });
+	    }
     }
     /**
      * [Android用] 他チーム日程ツールバーを生成する。
