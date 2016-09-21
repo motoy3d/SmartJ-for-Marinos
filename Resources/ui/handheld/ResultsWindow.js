@@ -23,7 +23,7 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
 		title: otherTeamId? otherTeamName + " 日程" : "日程・結果"
         ,navBarHidden: false
         ,backgroundColor: style.common.backgroundColor
-        ,barColor: style.common.barColor
+        ,barColor: otherTeamId? "#ccc" : style.common.barColor
         ,navTintColor: style.common.navTintColor
         ,rightNavButton: refreshButton
         ,titleAttributes: {
@@ -194,12 +194,14 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
                     var rows = new Array();
                     for(i=0; i<standingsDataList.length; i++) {
                         var data = standingsDataList[i];
-                        rows.push({
-                            title: "　" + data.teamFull
-                            ,teamId: data.teamId
-                            ,teamName: data.team
-                            ,color: "black"
-                        });
+                        if (config.teamId != data.teamId) {
+	                        rows.push({
+	                            title: "　" + data.teamFull
+	                            ,teamId: data.teamId
+	                            ,teamName: data.team
+	                            ,color: "black"
+	                        });
+	                    }
                     }
                     teamTable.setData(rows);
                 } catch(e) {

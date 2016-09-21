@@ -58,15 +58,17 @@ function NewsWindow(tabGroup, teamId, teamName) {
         title: (teamName? teamName + " " : "") + "ニュース"
         ,navBarHidden: false
         ,backgroundColor: style.common.backgroundColor
-        ,barColor: style.common.barColor
         ,navTintColor: style.common.navTintColor
         ,titleAttributes: {
             color: style.common.navTintColor
         }
     });
-    if (teamId == config.teamId) {	//自分のチームの時のみ表示
+    if (teamId == config.teamId) {	//自分のチームの時
         self.rightNavButton = configButton;
         self.leftNavButton = otherTeamButton;
+        self.barColor = style.common.barColor;
+    } else {
+    	self.barColor = "#ccc";
     }
 
     // 広告
@@ -352,8 +354,6 @@ function NewsWindow(tabGroup, teamId, teamName) {
             indicator.show();
             Ti.API.info('indicator.show()');
         }
-//        var style = require("util/style").style;
-//        var util = require("util/util").util;
         Ti.API.info(util.formatDatetime2(new Date()) + '  loadFeed started.................................');
         //alert('loadFeed : ' + news + ", kind=" + kind);
         //alert(news.loadNewsFeed);
@@ -497,12 +497,14 @@ function NewsWindow(tabGroup, teamId, teamName) {
                     var rows = new Array();
                     for(i=0; i<standingsDataList.length; i++) {
                         var data = standingsDataList[i];
-                        rows.push({
-                            title: "　" + data.teamFull
-                            ,teamId: data.teamId
-                            ,teamName: data.team
-                            ,color: "black"
-                        });
+                        if (config.teamId != data.teamId) {
+	                        rows.push({
+	                            title: "　" + data.teamFull
+	                            ,teamId: data.teamId
+	                            ,teamName: data.team
+	                            ,color: "black"
+	                        });
+                        }
                     }
                     teamTable.setData(rows);
                 } catch(e) {
