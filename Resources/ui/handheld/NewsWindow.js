@@ -21,7 +21,7 @@ function NewsWindow(tabGroup) {
     var configButton = Ti.UI.createButton({
         image: "/images/th.png"
     });
-    var configButtonClicked = false;
+    var configButtonClicked = false;		//ダブルタップ防止フラグ
     configButton.addEventListener('click', function() {
         if(configButtonClicked) {return;}
         try {
@@ -33,6 +33,25 @@ function NewsWindow(tabGroup) {
             configButtonClicked = false;
         }
     });
+    
+    // 他チーム情報ボタン
+    var otherTeamButton = Ti.UI.createButton({
+        image: "/images/zoom.png"
+    });
+    var otherTeamButtonClicked = false;		//ダブルタップ防止フラグ
+    otherTeamButton.addEventListener('click', function() {
+        if(otherTeamButtonClicked) {return;}
+        try {
+            otherTeamButtonClicked = true;
+            alert("他チーム情報");
+            // var configWindow = new ConfigWindow();
+            // configWindow.tabBarHidden = true;
+            // tabGroup.activeTab.open(configWindow, {animated: true});
+        } finally{
+            otherTeamButtonClicked = false;
+        }
+    });
+
     // ウィンドウ
     var self = Ti.UI.createWindow({
         title: "ニュース"
@@ -41,6 +60,7 @@ function NewsWindow(tabGroup) {
         ,barColor: style.common.barColor
         ,navTintColor: style.common.navTintColor
         ,rightNavButton: configButton
+        ,leftNavButton: otherTeamButton
         ,titleAttributes: {
             color: style.common.navTintColor
         }
@@ -113,7 +133,9 @@ function NewsWindow(tabGroup) {
         }
     }
     // インジケータ
-    var indicator = Ti.UI.createActivityIndicator();
+    var indicator = Ti.UI.createActivityIndicator({
+    	style: util.isiOS()? Ti.UI.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.BIG
+    });
     self.add(indicator);
     indicator.show();
     
@@ -213,6 +235,7 @@ function NewsWindow(tabGroup) {
                 ,pubDate : item.pubDate
                 ,navBarHidden : true
                 ,toolbarVisible : true
+                ,isBlockReportEnable : true
             };
 
             var webWindow = new WebWindow(webData,
@@ -299,6 +322,7 @@ function NewsWindow(tabGroup) {
       
     var actInd = Ti.UI.createActivityIndicator({
         /*left:20,*/ bottom:13
+        ,style: util.isiOS()? Ti.UI.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.BIG
     });
     listViewHeader.add(actInd);
     listView.pullView = listViewHeader; 
@@ -318,7 +342,9 @@ function NewsWindow(tabGroup) {
      */
     function loadFeed(news, kind) {
         if(util.isAndroid() && ("olderEntries" == kind || "newerEntries" == kind)) {
-            indicator = Ti.UI.createActivityIndicator({style: Titanium.UI.ActivityIndicatorStyle.BIG});
+            indicator = Ti.UI.createActivityIndicator({
+            	style: util.isiOS()? Ti.UI.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.BIG
+        	});
             self.add(indicator);
             indicator.show();
             Ti.API.info('indicator.show()');

@@ -41,11 +41,20 @@ function WebWindow(webData, callback) {
     var optionBtn = Ti.UI.createButton({
         systemButton:Ti.UI.iPhone.SystemButton.ACTION
     });
-	var opts = {
-		options: ['リンクをコピー', 'Safariで開く', 'ブロック', '報告', 'キャンセル'],
-		cancel: 4,
-		destructive: 0
-	};
+    var opts;
+    if (webData.isBlockReportEnable) {
+		var opts = {
+			options: ['リンクをコピー', 'Safariで開く', 'ブロック', '報告', 'キャンセル'],
+			cancel: 4,
+			destructive: 0
+		};
+    } else {
+		var opts = {
+			options: ['リンクをコピー', 'Safariで開く', 'キャンセル'],
+			cancel: 2,
+			destructive: 0
+		};
+    }
 	optionBtn.addEventListener('click', function(e){
 		var dialog = Ti.UI.createOptionDialog(opts);
 		dialog.addEventListener('click', function(e) {
@@ -53,7 +62,7 @@ function WebWindow(webData, callback) {
 				Ti.UI.Clipboard.setText(webView.url);
 			} else if (e.index == 1) {	//Safariで開く
 				Ti.Platform.openURL(webView.url);
-			} else if (e.index == 2) {	//ブロック
+			} else if (e.index == 2 && webData.isBlockReportEnable) {	//ブロック
 				var dialog = Ti.UI.createAlertDialog({
 					title: ""
 					,message: "このサイトをブロックして、今後表示しないようにしますか？"
@@ -91,7 +100,7 @@ function WebWindow(webData, callback) {
 					}
 				});
 				dialog.show();
-			} else if (e.index == 3) {	//報告
+			} else if (e.index == 3 && webData.isBlockReportEnable) {	//報告
 				var reportOpts = {
 					options: ['興味がない', '迷惑', 'キャンセル'],
 					cancel: 2,

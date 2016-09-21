@@ -159,15 +159,22 @@ function Results(resultsWindow, otherTeamId, otherTeamName) {
 	
 		// 詳細リンクボタン
 		var detailButton = Ti.UI.createButton(style.results.detailButton);
-		detailButton.setEnabled(hasDetailResult);
+		if (!score) {
+			detailButton.setEnabled(false);
+			detailButton.backgroundColor = "#ddd";
+		}
 		// 試合詳細ウィンドウを開くイベント
 		detailButton.addEventListener('click', function() {
 			resultsWindow.loadDetailHtml(detailUrl);
 		});
 		row.add(detailButton);
+		
 		// 動画リンクボタン
 		var movieButton = Ti.UI.createButton(style.results.movieButton);
-        movieButton.setEnabled(hasDetailResult);
+		if (!score) {
+			movieButton.setEnabled(false);
+			movieButton.backgroundColor = "#ddd";
+		}
 		// 試合動画ウィンドウを開くイベント
 		movieButton.addEventListener('click', function() {
 		    Ti.API.debug('>>>>>>>>>>> date=' + item.game_date1);
@@ -177,6 +184,16 @@ function Results(resultsWindow, otherTeamId, otherTeamName) {
             resultsWindow.searchMovie(title, util.replaceAll(util.formatDate(gameDate), "/", ""));
 		});
 		row.add(movieButton);
+
+		// チケットボタン
+		if (item.ticket_url) {
+			var ticketButton = Ti.UI.createButton(style.results.ticketButton);
+			ticketButton.addEventListener('click', function() {
+				resultsWindow.loadDetailHtml(item.ticket_url);
+			});
+			row.add(ticketButton);
+		}
+
 		//Ti.API.debug('row====' + row);
 		return row;
 	}

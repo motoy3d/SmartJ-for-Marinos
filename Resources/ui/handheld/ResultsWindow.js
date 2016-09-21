@@ -140,6 +140,7 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
 			,link : detailUrl
 			,navBarHidden: true
 			,toolbarVisible: true
+			,isBlockReportEnable : false
 		};
 		var webWindow = new WebWindow(webData);
         tabGroup.activeTab.open(webWindow, {animated: true});

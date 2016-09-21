@@ -228,6 +228,7 @@ exports.style = {
 	    table : {
 	        backgroundColor: config.backgroundColor,
 	        separatorColor: 'gray',
+	        allowsSelection: false
 	    },
 		tableViewRow : {
 			height : 'auto',
@@ -294,27 +295,41 @@ exports.style = {
             // bottom : 10,
             right : 10          
         },
-		detailButton : {
-			backgroundImage : '/images/gameDetailBtn.png',
-			backgroundSelectedImage : '/images/gameDetailSelectedBtn.png',
+		ticketButton : {
+			title: "チケット",
+			backgroundColor : "#888",
 			color : 'white',
-			font : {fontSize : 17},
+			font : {fontSize : 15, fontWeight: "bold"},
+			borderRadius : 6,
 			width : 84,
 			height : 37,
 			top : 90,
 			bottom : 8,
-			right : 112 //元々90			
+			right : 214
+		},
+		detailButton : {
+			title: "試合詳細",
+			backgroundColor : "#888",
+			color : 'white',
+			font : {fontSize : 15, fontWeight: "bold"},
+			borderRadius : 6,
+			width : 84,
+			height : 37,
+			top : 90,
+			bottom : 8,
+			right : 112 //元々90
 		},
 		movieButton : {
-			backgroundImage : '/images/movieSearchBtn.png',
-			backgroundSelectedImage : '/images/movieSearchSelectedBtn.png',
+			title: "動画検索",
+			backgroundColor : "#888",
 			color : 'white',
-			font : {fontSize : 17},
+			font : {fontSize : 15, fontWeight: "bold"},
+			borderRadius : 6,
 			width : 84,
 			height : 37,
 			top : 90,
 			bottom : 8,
-			right : 10			
+			right : 10
 		},
 		otherTeamBtnAndroid : {
 		    title: "他チーム日程"

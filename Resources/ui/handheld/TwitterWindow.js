@@ -271,6 +271,7 @@ function TwitterWindow(tabGroup, target) {
       
     var actInd = Ti.UI.createActivityIndicator({
         /*left:20,*/ bottom:13
+        ,style: util.isiOS()? Ti.UI.ActivityIndicatorStyle.DARK : Ti.UI.ActivityIndicatorStyle.BIG
     });
     tableHeader.add(actInd);
     listView.pullView = tableHeader; 
