@@ -1,8 +1,9 @@
 eclipse.preferences.version=1
 iosLaunchConfigurationAttributes/ATTR_MINIFY=true
 iosLaunchConfigurationAttributes/ATTR_PROJECT_NAME=SmartJ for Marinos
+iosLaunchConfigurationAttributes/ATTR_UPLOAD_DEBUG_SYMBOLS=false
 iosLaunchConfigurationAttributes/appid=smartj.marinos
 iosLaunchConfigurationAttributes/certificate=Motoi Kataoka (23Q2N723L7)
 iosLaunchConfigurationAttributes/keychain=
-iosLaunchConfigurationAttributes/sdk_version=8.2
-iosLaunchConfigurationAttributes/uuid=3ca87628-104d-4297-9411-7f73232b6a97
+iosLaunchConfigurationAttributes/sdk_version=10.0
+iosLaunchConfigurationAttributes/uuid=a4c29904-5f0f-4691-a276-5fc4ffb04431
