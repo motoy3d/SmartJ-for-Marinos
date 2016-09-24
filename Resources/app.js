@@ -186,24 +186,29 @@ function openEULA() {
 	var style = require("/util/style").style;
 	var config = require("/config").config;
 	var ruleWin = Ti.UI.createWindow();
-	
 	var navbar = Ti.UI.createView({
 		width: Ti.UI.FILL
 		,height: 40
 		,top: 20
 		,backgroundColor: style.common.barColor
 	});
-	var titleLabel = Ti.UI.createLabel({text: "利用規約", color: style.common.navTintColor});
+	var titleLabel = Ti.UI.createLabel({
+		text: config.appName + " 利用規約"
+		,color: style.common.navTintColor
+		,font: {fontSize: 14}
+	});
 	navbar.add(titleLabel);
 	ruleWin.add(navbar);
 
     var webView = Ti.UI.createWebView({
     	height:Ti.UI.SIZE
-    	,width:Ti.UI.FILL
+    	,width: "100%"
 		,top: 60
 		,bottom: 50
 	});
-    webView.url = "rules.html";
+//    webView.url = "/rules.html";
+    webView.url = config.rulesUrl + encodeURI(config.appName);
+    Ti.API.info('>>>>>>>>>>>>>>>>> 利用規約URL=' + webView.url);
 	ruleWin.add(webView);
 	
 	var toolbar = Ti.UI.createView({

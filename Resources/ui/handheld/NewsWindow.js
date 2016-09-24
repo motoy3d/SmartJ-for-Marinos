@@ -69,6 +69,8 @@ function NewsWindow(tabGroup, teamId, teamName) {
         self.barColor = style.common.barColor;
     } else {
     	self.barColor = "#ccc";
+    	self.navTintColor = "black";
+        self.titleAttributes = {color: "black"};
     }
 
     // 広告

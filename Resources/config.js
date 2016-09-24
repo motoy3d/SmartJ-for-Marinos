@@ -28,6 +28,8 @@ exports.config = {
     ,videoUrl: "https://smartj.mobi/redsmylife/video.json?teamId=marinos"
     //報告URL
     ,reportUrl: "https://smartj.mobi/redsmylife/report.json?teamId=marinos"
+    //利用規約URL
+    ,rulesUrl: "https://smartj.mobi/redsmylife/rules.jsp?appName="
     //開発元メールアドレス
     ,developerMail: "motoy3d+smartj@gmail.com"
     ,newsEntriesPerPage: 50

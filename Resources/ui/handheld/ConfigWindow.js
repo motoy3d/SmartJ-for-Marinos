@@ -107,9 +107,9 @@ function ConfigWindow(webData) {
             dialog.open();
         }
         else if(e.index == 6) { //利用規約
-            Ti.App.Analytics.trackPageview('/rule');
+            Ti.App.Analytics.trackPageview('/rules');
             var webView = Ti.UI.createWebView();
-            webView.url = "rules.html";
+		    webView.url = config.rulesUrl + encodeURI(config.appName);
 			var ruleWin = Ti.UI.createWindow({
 				title: "利用規約"
 			    ,backgroundColor: style.common.backgroundColor
