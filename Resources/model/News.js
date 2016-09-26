@@ -177,9 +177,9 @@ function News(teamId) {
         var isVisited = util.contains(visitedUrlList, link);
         // ブロック確認
         var isBlocked = util.containsStartsWith(blockSiteList, link);
-        Ti.API.info("ブロックサイトリスト：" + util.toString(blockSiteList));
+        //Ti.API.info("ブロックサイトリスト：" + util.toString(blockSiteList));
         Ti.API.info('link=' + link);
-        Ti.API.info('ブロック？ ' + isBlocked);
+        //Ti.API.info('ブロック？ ' + isBlocked);
         if (isBlocked) {
         	return null;
         }
@@ -297,7 +297,7 @@ function News(teamId) {
             var rows = db.execute('SELECT url, date FROM blockSite');
             while (rows.isValidRow()) {
                 urlList.push(rows.field(0));
-                Ti.API.info('ブロックサイト　######## ' + rows.field(0) + " : " + rows.field(1));
+                //Ti.API.info('ブロックサイト　######## ' + rows.field(0) + " : " + rows.field(1));
                 rows.next();
             }
         } finally{
