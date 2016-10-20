@@ -13,6 +13,9 @@ exports.config = {
     ,tintColor: 'white'
     ,standingsBgcolor: '#00f'
     ,standingsTeamFontColor: 'white'
+    ,resultsDetailBtnBgColorActive: '#333'
+    ,resultsDetailBtnColorActive: 'white'
+    ,resultsDetailBtnBgColorInactive: '#202020'
     ,dbName: 'smartj.marinos'
     //URLベース
     ,urlBase: 'https://smartj.mobi/redsmylife/'

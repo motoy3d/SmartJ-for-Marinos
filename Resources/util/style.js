@@ -297,8 +297,8 @@ exports.style = {
         },
 		ticketButton : {
 			title: "チケット",
-			backgroundColor : "#888",
-			color : 'white',
+			backgroundColor : config.resultsDetailBtnBgColorActive,
+			color : config.resultsDetailBtnColorActive,
 			font : {fontSize : 15, fontWeight: "bold"},
 			borderRadius : 6,
 			width : 84,
@@ -309,8 +309,8 @@ exports.style = {
 		},
 		detailButton : {
 			title: "試合詳細",
-			backgroundColor : "#888",
-			color : 'white',
+			backgroundColor : config.resultsDetailBtnBgColorActive,
+			color : config.resultsDetailBtnColorActive,
 			font : {fontSize : 15, fontWeight: "bold"},
 			borderRadius : 6,
 			width : 84,
@@ -321,8 +321,8 @@ exports.style = {
 		},
 		movieButton : {
 			title: "動画検索",
-			backgroundColor : "#888",
-			color : 'white',
+			backgroundColor : config.resultsDetailBtnBgColorActive,
+			color : config.resultsDetailBtnColorActive,
 			font : {fontSize : 15, fontWeight: "bold"},
 			borderRadius : 6,
 			width : 84,

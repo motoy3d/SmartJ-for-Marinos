@@ -161,7 +161,8 @@ function Results(resultsWindow, otherTeamId, otherTeamName) {
 		var detailButton = Ti.UI.createButton(style.results.detailButton);
 		if (!score) {
 			detailButton.setEnabled(false);
-			detailButton.backgroundColor = "#ddd";
+			detailButton.backgroundColor = config.resultsDetailBtnBgColor;
+			detailButton.color = config.resultsDetailBtnColor;
 		}
 		// 試合詳細ウィンドウを開くイベント
 		detailButton.addEventListener('click', function() {
@@ -173,7 +174,8 @@ function Results(resultsWindow, otherTeamId, otherTeamName) {
 		var movieButton = Ti.UI.createButton(style.results.movieButton);
 		if (!score) {
 			movieButton.setEnabled(false);
-			movieButton.backgroundColor = "#ddd";
+			movieButton.backgroundColor = config.resultsDetailBtnBgColor;
+			movieButton.color = config.resultsDetailBtnColor;
 		}
 		// 試合動画ウィンドウを開くイベント
 		movieButton.addEventListener('click', function() {
