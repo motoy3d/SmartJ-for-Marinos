@@ -74,7 +74,7 @@ function TwitterWindow(tabGroup, target) {
         ,defaultItemTemplate : 'template'
         ,backgroundColor: style.common.backgroundColor
     });
-    Ti.API.debug("★style.twitter.listView.backgroundColor=" + style.twitter.listView.backgroundColor);
+    Ti.API.debug("★　style.twitter.listView.backgroundColor=" + style.twitter.listView.backgroundColor);
     listView.applyProperties(style.twitter.listView);
     var sections = [];
     var dataSection = Ti.UI.createListSection();
@@ -109,6 +109,8 @@ function TwitterWindow(tabGroup, target) {
         if(util.isAndroid()) {
             item.content.color = "#38e";
             listView.sections[0].updateItemAt(itemIndex, item);
+        	Ti.Platform.openURL(item.url);
+        	return;
         }
         var optionBtn = Ti.UI.createButton({systemButton:Ti.UI.iPhone.SystemButton.ACTION});
         // 報告、ブロック

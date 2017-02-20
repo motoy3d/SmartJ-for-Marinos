@@ -24,10 +24,10 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
         ,navBarHidden: false
         ,backgroundColor: style.common.backgroundColor
         ,barColor: otherTeamId? "#ccc" : style.common.barColor
-        ,navTintColor: style.common.navTintColor
+        ,navTintColor: otherTeamId?  "black" : style.common.navTintColor
         ,rightNavButton: refreshButton
         ,titleAttributes: {
-            color: style.common.navTintColor
+            color: otherTeamId?  "black" : style.common.navTintColor
         }
 	});
 	self.loadDetailHtml = loadDetailHtml;	//function
@@ -106,7 +106,7 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
                             if(util.isAndroid()) {
                                 tableView.scrollToIndex(rowIdx - 1);    
                             } else {
-                                tableView.scrollToIndex(rowIdx + 1);    
+                                tableView.scrollToIndex(rowIdx + 2);    
                             }
                         }
                     }
@@ -135,15 +135,19 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
 	 */
 	function loadDetailHtml(detailUrl) {
 		Ti.API.info("loadDetailHtml----------");
-		var webData = {
-			title : "試合詳細"
-			,link : detailUrl
-			,navBarHidden: true
-			,toolbarVisible: true
-			,isBlockReportEnable : false
-		};
-		var webWindow = new WebWindow(webData);
-        tabGroup.activeTab.open(webWindow, {animated: true});
+        if (util.isAndroid()) {
+        	Ti.Platform.openURL(detailUrl);
+        } else {
+			var webData = {
+				title : "試合詳細"
+				,link : detailUrl
+				,navBarHidden: true
+				,toolbarVisible: true
+				,isBlockReportEnable : false
+			};
+			var webWindow = new WebWindow(webData);
+	        tabGroup.activeTab.open(webWindow, {animated: true});
+		}
 	}
 
 	/**
@@ -236,6 +240,7 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
             ,bottom: 0
         });
         if (util.isAndroid()) {
+        	closeBtn.backgroundColor = "#ccc";
             closeBtn.color = "black";
         }
         closeBtn.addEventListener("click", function(e){

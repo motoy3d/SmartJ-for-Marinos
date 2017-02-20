@@ -8,7 +8,8 @@
     <description>横浜F・マリノスアプリ！</description>
     <copyright>2016 by Motoi Kataoka</copyright>
     <icon>appicon.png</icon>
-    <navbar-hidden>true</navbar-hidden>
+    <fullscreen>false</fullscreen>
+    <navbar-hidden>false</navbar-hidden>
     <analytics>false</analytics>
     <guid>6445d8a9-1b91-40fd-9aaa-8b75a0af068a</guid>
     <property name="ti.ui.defaultunit" type="string">dp</property>
@@ -44,50 +45,16 @@
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android">
-        <fullscreen>true</fullscreen>
-        <manifest android:installLocation="auto" android:versionCode="3" android:versionName="1.0.1">
-            <application android:hardwareAccelerated="false" android:theme="@style/Theme.Titanium">
-                <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version"/>
-                <activity
-                    android:configChanges="keyboardHidden|orientation|screenSize"
-                    android:label="@string/app_name"
-                    android:name=".SmartjForMarinosActivity"
-                    android:screenOrientation="portrait" android:theme="@style/Theme.Titanium">
-                    <intent-filter>
-                        <action android:name="android.intent.action.MAIN"/>
-                        <category android:name="android.intent.category.LAUNCHER"/>
-                    </intent-filter>
-                </activity>
-                <activity
-                    android:configChanges="keyboardHidden|orientation|screenSize"
-                    android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>
-                <activity
-                    android:configChanges="keyboardHidden|orientation|screenSize"
-                    android:name="org.appcelerator.titanium.TiTranslucentActivity"
-                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
-                <activity android:configChanges="screenSize"
-                    android:name="ti.modules.titanium.ui.android.TiPreferencesActivity" android:screenOrientation="portrait"/>
-            </application>
-            <uses-sdk android:minSdkVersion="14"/>
-            <supports-screens android:anyDensity="false"/>
-        </manifest>
-    </android>
-    <mobileweb>
-        <precache/>
-        <splash>
-            <enabled>true</enabled>
-            <inline-css-images>true</inline-css-images>
-        </splash>
-        <theme>default</theme>
-    </mobileweb>
+    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <!-- Android設定はplatform/android/AndroidManifest.xmlで行う。
+    WRITE_EXTERNAL_STORAGEパーミッションを無効化するのがtiapp.xmlではできないため -->
+    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
+    <!-- Android設定はplatform/android/AndroidManifest.xmlで行う。
+    WRITE_EXTERNAL_STORAGEパーミッションを無効化するのがtiapp.xmlではできないため -->
     <modules>
-        <module platform="android">com.motoy3d.check.app.android</module>
         <module platform="android">net.nend</module>
         <module platform="iphone">de.marcelpociot.social</module>
         <module platform="iphone">net.nend</module>
-        <module platform="android">com.motoy3d.android.displayinfo</module>
-        <module platform="commonjs">ti.cloud</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>
@@ -95,22 +62,8 @@
         <target device="iphone">true</target>
         <target device="mobileweb">false</target>
     </deployment-targets>
-    <sdk-version>5.5.0.GA</sdk-version>
+    <sdk-version>5.5.1.GA</sdk-version>
     <property name="appc-app-id" type="string">57d276a87b19ac043d16e17d</property>
-    <property name="acs-authbase-url-development" type="string">https://secure-identity.cloud.appcelerator.com</property>
-    <property name="acs-base-url-development" type="string">https://api.cloud.appcelerator.com</property>
-    <property name="acs-oauth-secret-development" type="string">5yIMGWtYX7QLDXY8M5XaD39rRoD1awQL</property>
-    <property name="acs-oauth-key-development" type="string">YdNgO9nkDndwpdFezc8t0gaeKUjU1sJs</property>
-    <property name="acs-api-key-development" type="string">5f168gQ7wXhEhU0wvLsrgCMXVU4sJPmM</property>
-    <property name="acs-username-development" type="string">appc_app_user_dev</property>
-    <property name="acs-password-development" type="string">F2LP070x33e9wycOl9</property>
-    <property name="acs-authbase-url-production" type="string">https://secure-identity.cloud.appcelerator.com</property>
-    <property name="acs-base-url-production" type="string">https://api.cloud.appcelerator.com</property>
-    <property name="acs-oauth-secret-production" type="string">HgJXD0bluWXPTBs4sI4IPKKaPspVjqQQ</property>
-    <property name="acs-oauth-key-production" type="string">fYimG993YJVUmBoFmfijaTwOSogzw8Hu</property>
-    <property name="acs-api-key-production" type="string">ovXvI7tI86nU9EdnPfxEBNUnu8sjWItx</property>
-    <property name="acs-username-production" type="string">appc_app_user</property>
-    <property name="acs-password-production" type="string">8YAzrIDsEjgzjixbVK</property>
     <property name="appc-org-id" type="string">100001606</property>
     <property name="appc-creator-user-id" type="string">0c8920b0-9a23-4f31-b3ce-c00f6d1cdb46</property>
 </ti:app>

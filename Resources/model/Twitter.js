@@ -119,7 +119,7 @@ function Twitter(target) {
             } finally {
             }
             var after = new Date();
-            Ti.API.info("Twitter.js#loadTweets() 処理時間★" 
+            Ti.API.info("Twitter.js#loadTweets() 処理時間★　" 
                 + (after.getTime()-before.getTime())/1000.0 + "秒");
         };
         function onErrorCallback(e) {

@@ -12,12 +12,13 @@
 	    launchAppCount = 0;	//起動回数
 	    Ti.App.Properties.setBool("shareAndReviewDoneFlg", false);	
 	}
-	var eulaDone = Ti.App.Properties.getBool("eulaDone");
-    // 利用規約表示
-	if (!eulaDone) {
-		openEULA();
+	if (util.isiOS()) {
+		var eulaDone = Ti.App.Properties.getBool("eulaDone");
+	    // 利用規約表示
+		if (!eulaDone) {
+			openEULA();
+		}
 	}
-
 	Ti.App.Properties.setInt("LaunchAppCount", ++launchAppCount);
 	Ti.API.info('アプリ起動 : ' + launchAppCount);
 	// ユーザーID保存
@@ -39,17 +40,17 @@
 		dpi = Ti.Platform.displayCaps.dpi,
 		xdpi = Ti.Platform.displayCaps.xdpi,
 		ydpi = Ti.Platform.displayCaps.ydpi;
-	Ti.API.info('★★osname=' + osname);
-	Ti.API.info('★★osversion=' + osversion);
-    Ti.API.info('★★appversion=' + appversion);
-    Ti.API.info('★★name=' + name);
-    Ti.API.info('★★model=' + model);
-	Ti.API.info('★★width/height=' + width + "/" + height);
-	Ti.API.info('★★density=' + density);
-    Ti.API.info('★★logicalDensityFactor=' + logicalDensityFactor);
-	Ti.API.info('★★dpi=' + dpi);
-    Ti.API.info('★★xdpi=' + xdpi);
-    Ti.API.info('★★ydpi=' + ydpi);
+	Ti.API.info('★★　osname=' + osname);
+	Ti.API.info('★★　osversion=' + osversion);
+    Ti.API.info('★★　appversion=' + appversion);
+    Ti.API.info('★★　name=' + name);
+    Ti.API.info('★★　model=' + model);
+	Ti.API.info('★★　width/height=' + width + "/" + height);
+	Ti.API.info('★★　density=' + density);
+    Ti.API.info('★★　logicalDensityFactor=' + logicalDensityFactor);
+	Ti.API.info('★★　dpi=' + dpi);
+    Ti.API.info('★★　xdpi=' + xdpi);
+    Ti.API.info('★★　ydpi=' + ydpi);
     Ti.API.info('☆☆dpi from module=' + util.getDpi());
     Ti.App.Analytics.trackPageview("/startApp?m=" + model + "&v=" + osversion/* + "&wh=" + width + "x" + height*/);	
 
