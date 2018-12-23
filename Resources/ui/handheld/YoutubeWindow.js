@@ -33,7 +33,7 @@ function YoutubeWindow(title, gameDate, otherTeamId) {
         ,separatorColor : "black"
     });
     if (util.isiOS()) {
-        tableView.scrollIndicatorStyle = Ti.UI.iPhone.ScrollIndicatorStyle.WHITE;        
+        tableView.scrollIndicatorStyle = Ti.UI.iOS.ScrollIndicatorStyle.WHITE;        
     }
 
     self.add(tableView);

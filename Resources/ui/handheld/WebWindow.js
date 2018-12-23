@@ -28,18 +28,18 @@ function WebWindow(webData, callback) {
 	
     var webView = Ti.UI.createWebView();
     var flexSpace = Ti.UI.createButton({
-        systemButton:Ti.UI.iPhone.SystemButton.FLEXIBLE_SPACE
+        systemButton:Ti.UI.iOS.SystemButton.FLEXIBLE_SPACE
     });
     // 閉じるボタン
     var closeBtn = Ti.UI.createButton({
-        systemButton:Ti.UI.iPhone.SystemButton.STOP
+        systemButton:Ti.UI.iOS.SystemButton.STOP
     });
     closeBtn.addEventListener("click", function(e){
         self.close();
     });
     // オプションボタン
     var optionBtn = Ti.UI.createButton({
-        systemButton:Ti.UI.iPhone.SystemButton.ACTION
+        systemButton:Ti.UI.iOS.SystemButton.ACTION
     });
     var opts;
     if (webData.isBlockReportEnable) {

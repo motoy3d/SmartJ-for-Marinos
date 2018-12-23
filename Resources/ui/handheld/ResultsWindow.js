@@ -15,7 +15,7 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
     // 更新ボタン
     var refreshButton = Ti.UI.createButton();
     if(util.isiOS()) {
-        refreshButton.systemButton = Ti.UI.iPhone.SystemButton.REFRESH;
+        refreshButton.systemButton = Ti.UI.iOS.SystemButton.REFRESH;
     } else {
         refreshButton.title = "更新";
     }
@@ -51,7 +51,7 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
     	// 他チーム日程ツールバー
         if (util.isiOS()) {
             var flexSpace = Ti.UI.createButton({
-               systemButton:Ti.UI.iPhone.SystemButton.FLEXIBLE_SPACE
+               systemButton:Ti.UI.iOS.SystemButton.FLEXIBLE_SPACE
             });
             //ツールバー
             var buttonBar = Ti.UI.createButtonBar(style.results.buttonBar);
@@ -252,7 +252,7 @@ function ResultsWindow(tabGroup, otherTeamId, otherTeamName) {
         if (util.isiOS()) {
 	        otherTeamWin.open({
 	        	modal : true
-	        	,modalTransitionStyle : Ti.UI.iPhone.MODAL_TRANSITION_STYLE_CROSS_DISSOLVE
+	        	,modalTransitionStyle : Ti.UI.iOS.MODAL_TRANSITION_STYLE_CROSS_DISSOLVE
 	        });
 	    } else {
 	        otherTeamWin.open({

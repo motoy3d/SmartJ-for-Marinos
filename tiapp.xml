@@ -2,11 +2,11 @@
 <ti:app xmlns:ti="http://ti.appcelerator.org">
     <id>smartj.marinos</id>
     <name>SmartJ for Marinos</name>
-    <version>1.0.3</version>
+    <version>1.1.0</version>
     <publisher>Motoi Kataoka</publisher>
     <url>http://motoy3d.blogspot.com</url>
     <description>横浜F・マリノスアプリ！</description>
-    <copyright>2016 by Motoi Kataoka</copyright>
+    <copyright>2018 by Motoi Kataoka</copyright>
     <icon>appicon.png</icon>
     <fullscreen>false</fullscreen>
     <navbar-hidden>false</navbar-hidden>
@@ -31,8 +31,6 @@
                 <string>UIStatusBarStyleLightContent</string>
             </dict>
         </plist>
-    </ios>
-    <iphone>
         <statusbar-hidden>false</statusbar-hidden>
         <fullscreen>false</fullscreen>
         <orientations device="iphone">
@@ -44,7 +42,7 @@
             <orientation>Ti.UI.LANDSCAPE_LEFT</orientation>
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
-    </iphone>
+    </ios>
     <android xmlns:android="http://schemas.android.com/apk/res/android"/>
     <!-- Android設定はplatform/android/AndroidManifest.xmlで行う。
     WRITE_EXTERNAL_STORAGEパーミッションを無効化するのがtiapp.xmlではできないため -->
@@ -52,17 +50,14 @@
     <!-- Android設定はplatform/android/AndroidManifest.xmlで行う。
     WRITE_EXTERNAL_STORAGEパーミッションを無効化するのがtiapp.xmlではできないため -->
     <modules>
-        <module platform="android">net.nend</module>
         <module platform="iphone">de.marcelpociot.social</module>
-        <module platform="iphone">net.nend</module>
     </modules>
     <deployment-targets>
         <target device="android">true</target>
         <target device="ipad">false</target>
         <target device="iphone">true</target>
-        <target device="mobileweb">false</target>
     </deployment-targets>
-    <sdk-version>5.5.1.GA</sdk-version>
+    <sdk-version>7.5.0.GA</sdk-version>
     <property name="appc-app-id" type="string">57d276a87b19ac043d16e17d</property>
     <property name="appc-org-id" type="string">100001606</property>
     <property name="appc-creator-user-id" type="string">0c8920b0-9a23-4f31-b3ce-c00f6d1cdb46</property>

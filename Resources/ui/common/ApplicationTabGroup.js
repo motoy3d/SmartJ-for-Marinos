@@ -9,7 +9,7 @@ function ApplicationTabGroup() {
 	var config = require("/config").config;
 	if(util.isAndroid()) {
 		var self = Ti.UI.createTabGroup({title: ''});
-//	    self.applyProperties(style.tabsAndroid);
+	    self.applyProperties(style.tabsAndroid);
 	} else {
 		var self = Ti.UI.createTabGroup({
 		    navTintColor: style.common.navTintColor

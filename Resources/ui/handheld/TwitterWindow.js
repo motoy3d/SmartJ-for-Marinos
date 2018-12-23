@@ -112,7 +112,7 @@ function TwitterWindow(tabGroup, target) {
         	Ti.Platform.openURL(item.url);
         	return;
         }
-        var optionBtn = Ti.UI.createButton({systemButton:Ti.UI.iPhone.SystemButton.ACTION});
+        var optionBtn = Ti.UI.createButton({systemButton:Ti.UI.iOS.SystemButton.ACTION});
         // 報告、ブロック
 		var opts = {
 			options: ['リンクをコピー', 'Safariで開く', 'ブロック', '報告', 'キャンセル'],

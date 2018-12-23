@@ -17,7 +17,7 @@ function StandingsWindow(tabGroup) {
     // 更新ボタン
     var refreshButton = Ti.UI.createButton();
     if(util.isiOS()) {
-        refreshButton.systemButton = Ti.UI.iPhone.SystemButton.REFRESH;
+        refreshButton.systemButton = Ti.UI.iOS.SystemButton.REFRESH;
     } else {
         refreshButton.title = "更新";
     }
@@ -51,7 +51,7 @@ function StandingsWindow(tabGroup) {
     }
     if ("J1" == Ti.App.jcategory && util.isiOS()) {
         var flexSpace = Ti.UI.createButton({
-           systemButton:Ti.UI.iPhone.SystemButton.FLEXIBLE_SPACE
+           systemButton:Ti.UI.iOS.SystemButton.FLEXIBLE_SPACE
         });
         //ツールバー
         var compeButtonBar = Ti.UI.iOS.createTabbedBar(style.standings.compeButtonBar);

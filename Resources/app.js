@@ -56,7 +56,7 @@
 
 	var isTablet = osname === 'ipad' || (osname === 'android' && (width > 899 || height > 899));
 	if(osname == "iphone") {
-        Ti.UI.iPhone.statusBarStyle = Ti.UI.iPhone.StatusBar.LIGHT_CONTENT;
+        Ti.UI.iOS.statusBarStyle = Ti.UI.iOS.StatusBar.LIGHT_CONTENT;
 	}
 	
 	// 全置換：全ての文字列 org を dest に置き換える  
@@ -111,7 +111,7 @@
             if ( ( new Date() ).getTime() >= startTime + waitMilliSeconds ) break;
         }
         if(osname == "iphone") {
-            tabGroup.open({transition: Ti.UI.iPhone.AnimationStyle.FLIP_FROM_LEFT});      
+            tabGroup.open({transition: Ti.UI.iOS.AnimationStyle.FLIP_FROM_LEFT});      
         } else {
             tabGroup.open();
         }
